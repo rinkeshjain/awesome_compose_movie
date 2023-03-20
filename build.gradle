@@ -6,16 +6,20 @@ buildscript {
         ratingBarVersion = "1.2.3"
         landscapistVersion = '2.1.8'
         constraintlayoutVersion = "1.0.1"
-        hiltVersion = '2.45'
+        hiltVersion = '2.42'
         room_version = "2.5.0"
 
     }
 
     dependencies {
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.44")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.42")
     }
 
+
+
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+
 plugins {
     id 'com.android.application' version '7.4.2' apply false
     id 'com.android.library' version '7.4.2' apply false
