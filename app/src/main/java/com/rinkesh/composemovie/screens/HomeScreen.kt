@@ -13,11 +13,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.rinkesh.composemovie.screens.commonview.GenreChip
 import com.rinkesh.composemovie.screens.commonview.ScrollableMovieItem
 import com.rinkesh.composemovie.screens.commonview.SearchAndList
 import com.rinkesh.composemovie.screens.commonview.ShowAboutCategory
+import com.rinkesh.composemovie.screens.destinations.SavedMovieScreenDestination
+import com.rinkesh.composemovie.screens.destinations.SearchScreenDestination
 import com.rinkesh.composemovie.utlis.FilmType
 import com.rinkesh.composemovie.viewmodels.HomeViewModel
 
@@ -31,8 +34,8 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel(), navigator: Destin
     ) {
         SearchAndList(
             homeViewModel = homeViewModel,
-            onRoomWatchList = {  },
-            onSearchScreen = {  }
+            onRoomWatchList = { navigator.navigate(direction = SavedMovieScreenDestination()) },
+            onSearchScreen = { navigator.navigate(direction = SearchScreenDestination()) }
         )
         NestedScroll(homeViewModel, navigator = navigator)
 

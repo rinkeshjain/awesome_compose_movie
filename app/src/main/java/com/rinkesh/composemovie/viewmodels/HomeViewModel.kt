@@ -7,21 +7,26 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.filter
 import com.rinkesh.composemovie.model.Film
 import com.rinkesh.composemovie.model.Genre
 import com.rinkesh.composemovie.repository.GenreFilmRepository
+import com.rinkesh.composemovie.repository.HomeRepository
 import com.rinkesh.composemovie.utlis.FilmType
 import com.rinkesh.composemovie.utlis.ResourceState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val genreFilmRepository: GenreFilmRepository
+    private val genreFilmRepository: GenreFilmRepository,
+    private val homeRepository: HomeRepository
 ) : ViewModel() {
 
     private val _trendingFilm = mutableStateOf<Flow<PagingData<Film>>>(emptyFlow())
@@ -54,16 +59,68 @@ class HomeViewModel @Inject constructor(
         genreId: Int? = selectedGenre.value.id,
     ) {
         genreFilmChip()
-//        trendingFilmNetwork(filmType, genreId)
-//        popularFilmNetwork(filmType, genreId)
-//        topRatedFilmNetwork(filmType, genreId)
-//        nowPlayingFilmNetwork(filmType, genreId)
-//        upComingFilmNetwork(filmType, genreId)
-//        backInDayFilmNetwork(filmType, genreId)
+        trendingFilmNetwork(filmType, genreId)
+        popularFilmNetwork(filmType, genreId)
+        topRatedFilmNetwork(filmType, genreId)
+        nowPlayingFilmNetwork(filmType, genreId)
+        upComingFilmNetwork(filmType, genreId)
+        backInDayFilmNetwork(filmType, genreId)
     }
 
 
-    fun genreFilmChip() {
+    private fun trendingFilmNetwork(filmType: FilmType, genreId: Int?) {
+        viewModelScope.launch {
+            _trendingFilm.value = filterItem(
+                genreId,
+                homeRepository.trendingFilm(filmType)
+            ).cachedIn(viewModelScope)
+        }
+    }
+    private fun popularFilmNetwork(filmType: FilmType, genreId: Int?) {
+        viewModelScope.launch {
+            _popularFilm.value = filterItem(
+                genreId,
+                homeRepository.popularFilm(filmType)
+            ).cachedIn(viewModelScope)
+        }
+    }
+
+    private fun topRatedFilmNetwork(filmType: FilmType, genreId: Int?) {
+        viewModelScope.launch {
+            _topRatedFilm.value = filterItem(
+                genreId,
+                homeRepository.topRateFilm(filmType)
+            ).cachedIn(viewModelScope)
+        }
+    }
+
+    private fun upComingFilmNetwork(filmType: FilmType, genreId: Int?) {
+        viewModelScope.launch {
+            _upComingFilm.value = filterItem(
+                genreId,
+                homeRepository.upComingFilm(filmType)
+            ).cachedIn(viewModelScope)
+        }
+    }
+
+    private fun nowPlayingFilmNetwork(filmType: FilmType, genreId: Int?) {
+        viewModelScope.launch {
+            _nowPlayingFilm.value = filterItem(
+                genreId,
+                homeRepository.nowPlayingFilm(filmType)
+            ).cachedIn(viewModelScope)
+        }
+    }
+    private fun backInDayFilmNetwork(filmType: FilmType, genreId: Int?) {
+        viewModelScope.launch {
+            _backInDaysFilm.value = filterItem(
+                genreId,
+                homeRepository.backInDaysFilm(filmType)
+            ).cachedIn(viewModelScope)
+        }
+    }
+
+    private fun genreFilmChip() {
         viewModelScope.launch {
             val defaultGenre = Genre(null, "All")
             when (val resultChip = genreFilmRepository.genreFilm(selectedFilmType.value)) {
@@ -81,5 +138,18 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    fun filterItem(genreId: Int?, data: Flow<PagingData<Film>>): Flow<PagingData<Film>> {
+        return if (genreId != null) {
+            data.map { result ->
+                result.filter { film ->
+                    film.genreIds!!.contains(genreId)
+                }
+            }
+        } else {
+            data
+        }
+    }
+
 
 }
