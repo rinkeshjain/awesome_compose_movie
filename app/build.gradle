@@ -93,7 +93,14 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
 
     // Landscapist image loader
-    implementation "com.github.skydoves:landscapist-coil:$landscapistVersion"
+    implementation "com.github.skydoves:landscapist-bom:$landscapistVersion"
+//    implementation "com.github.skydoves:landscapist-coil:$landscapistVersion"
+//    implementation "com.github.skydoves:landscapist-animation:$landscapistVersion"
+//    implementation "com.github.skydoves:landscapist-palette:$landscapistVersion "
+//    implementation "com.github.skydoves:landscapist-placeholder:$landscapistVersion"
+
+//    palette API
+    implementation('androidx.palette:palette:1.0.0')
 
     // RatingBar
     implementation 'io.github.a914-gowtham:compose-ratingbar:1.2.3'

@@ -14,6 +14,7 @@ import androidx.paging.compose.items
 import androidx.paging.LoadState
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.rinkesh.composemovie.model.Film
+import com.rinkesh.composemovie.screens.destinations.DetailFilmScreenDestination
 import com.rinkesh.composemovie.utlis.FilmType
 import com.rinkesh.composemovie.utlis.Utils.BASE_BACKDROP_IMAGE_URL
 import com.rinkesh.composemovie.utlis.Utils.BASE_POSTER_IMAGE_URL
@@ -47,12 +48,12 @@ fun ScrollableMovieItem(
                         else
                             "$BASE_POSTER_IMAGE_URL/${it.posterPath}",
                         onClick = {
-//                            navigator.navigate(
-//                                direction = DetailFilmScreenDestination(
-//                                    it,
-//                                    filmType
-//                                )
-//                            )
+                            navigator.navigate(
+                                direction = DetailFilmScreenDestination(
+                                    it,
+                                    filmType
+                                )
+                            )
                         }
                     )
                 }

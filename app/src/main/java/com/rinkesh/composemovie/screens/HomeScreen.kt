@@ -1,14 +1,22 @@
 package com.rinkesh.composemovie.screens
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -19,14 +27,18 @@ import com.rinkesh.composemovie.screens.commonview.GenreChip
 import com.rinkesh.composemovie.screens.commonview.ScrollableMovieItem
 import com.rinkesh.composemovie.screens.commonview.SearchAndList
 import com.rinkesh.composemovie.screens.commonview.ShowAboutCategory
-import com.rinkesh.composemovie.screens.destinations.SavedMovieScreenDestination
-import com.rinkesh.composemovie.screens.destinations.SearchScreenDestination
 import com.rinkesh.composemovie.utlis.FilmType
 import com.rinkesh.composemovie.viewmodels.HomeViewModel
 
+@OptIn(ExperimentalAnimationApi::class)
 @Destination(start = true)
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel(), navigator: DestinationsNavigator) {
+
+    var isVisible by remember { mutableStateOf(true) }
+    var isRound by remember { mutableStateOf(false) }
+
+
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -34,10 +46,78 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel(), navigator: Destin
     ) {
         SearchAndList(
             homeViewModel = homeViewModel,
-            onRoomWatchList = { navigator.navigate(direction = SavedMovieScreenDestination()) },
-            onSearchScreen = { navigator.navigate(direction = SearchScreenDestination()) }
+            onRoomWatchList = {
+//                navigator.navigate(direction = SavedMovieScreenDestination())
+            },
+            onSearchScreen = {
+//                navigator.navigate(direction = SearchScreenDestination())
+            }
         )
-        NestedScroll(homeViewModel, navigator = navigator)
+        Button(onClick = {
+            isVisible = !isVisible
+            isRound = !isRound
+        }) {
+            Text("Toggle")
+        }
+
+        val transaction = updateTransition(targetState = isRound, label = "Update Value")
+
+        val borderRadius by transaction.animateInt(label = "For Radius") {
+            if (it) 100 else 0
+        }
+//        val borderRadius by animateIntAsState(targetValue = if (isRound) 100 else 0,
+//            animationSpec = tween(durationMillis = 1300, easing = FastOutSlowInEasing)
+//        )
+//
+//        val color by transaction.animateColor(label = "For Color", transitionSpec = { tween(durationMillis = 4000) },
+//            targetValueByState = { isRound -> if (isRound) Color.Red else Color.Gray })
+////        val color by animateColorAsState(targetValue = if (isRound) Color.Red else Color.Gray,
+////            animationSpec = tween(durationMillis = 1300, easing = FastOutSlowInEasing)
+////        )
+//
+//        val transition= rememberInfiniteTransition()
+//        val color by transition.animateColor(
+//            initialValue = Color.Red,
+//            targetValue = Color.Green,
+//            animationSpec = infiniteRepeatable(animation = tween(durationMillis = 2000), repeatMode = RepeatMode.Reverse)
+//        )
+//        Box(
+//            modifier = Modifier
+//                .size(200.dp)
+//                .clip(RoundedCornerShape(borderRadius))
+//                .background(color)
+//        )
+
+        AnimatedContent (
+            targetState =isVisible,
+            modifier=Modifier.fillMaxWidth().weight(1f),
+            content = {isVisible->
+                if(isVisible){
+                    Box(modifier=Modifier.background(Color.Magenta))
+                }else{
+                    Box(modifier=Modifier.background(Color.Cyan))
+                }
+            },
+            transitionSpec = {
+                slideInHorizontally(initialOffsetX = {-it}) with slideOutHorizontally(targetOffsetX = {it})
+            }
+        )
+
+
+//        AnimatedVisibility(
+//            visible = isVisible,
+//            enter = slideInHorizontally(),
+//            exit = slideOutHorizontally(),
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .weight(1f)
+//        ) {
+//            Box(
+//                modifier = Modifier
+//                    .background(Color.Red)
+//            )
+//        }
+//        NestedScroll(homeViewModel, navigator = navigator)
 
     }
 
