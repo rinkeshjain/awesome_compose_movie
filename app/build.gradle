@@ -93,12 +93,20 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
 
     // Landscapist image loader
+    // Import the landscapist BOM
     implementation "com.github.skydoves:landscapist-bom:$landscapistVersion"
+
+    // Import landscapist libraries
+    implementation "com.github.skydoves:landscapist-coil" // fresco or coil
+    implementation "com.github.skydoves:landscapist-placeholder"
+    implementation "com.github.skydoves:landscapist-palette"
+    implementation "com.github.skydoves:landscapist-animation"
+
 //    implementation "com.github.skydoves:landscapist-coil:$landscapistVersion"
 //    implementation "com.github.skydoves:landscapist-animation:$landscapistVersion"
 //    implementation "com.github.skydoves:landscapist-palette:$landscapistVersion "
 //    implementation "com.github.skydoves:landscapist-placeholder:$landscapistVersion"
-
+//
 //    palette API
     implementation('androidx.palette:palette:1.0.0')
 

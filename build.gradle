@@ -4,7 +4,7 @@ buildscript {
         lottieVersion = "6.0.0"
         timberVersion = "5.0.1"
         ratingBarVersion = "1.2.3"
-        landscapistVersion = '2.1.8'
+        landscapistVersion = '2.1.9'
         constraintlayoutVersion = "1.0.1"
         hiltVersion = '2.42'
         room_version = "2.5.0"
