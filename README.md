@@ -3,7 +3,7 @@
 This application is build by [Jetpack Compose](https://developer.android.com/jetpack/compose) and get data from [TMDB API](https://developers.themoviedb.org/3/getting-started/introduction) to display about upcoming movie,trending movie, toprated, and tv show
 
 
-<img src="/image/movie_1.png" width="220px"/> <img src="/image/movie_2.png" width="220px"/> <img src="iImage/movie_3.png" width="220px"/><img src="iImage/movie_4.png" width="220px"/>
+<img src="/image/movie_1.png" width="220px"/> <img src="/image/movie_2.png" width="220px"/> <img src="image/movie_3.png" width="220px"/><img src="image/movie_4.png" width="220px"/>
 
 
 
