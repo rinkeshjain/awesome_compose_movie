@@ -42,7 +42,7 @@ fun DetailGenreChip(title: String) {
         Text(
             text = title,
             modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
-            style = MaterialTheme.typography.labelSmall
+            style = MaterialTheme.typography.labelSmall.copy(color = Color.White)
         )
     }
 }

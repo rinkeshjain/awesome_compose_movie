@@ -44,11 +44,10 @@ fun RatingBarUI(vote: Double) {
 }
 
 @Composable
-fun BackButton(modifier: Modifier, onClick: () -> Unit) {
+fun BackButton(modifier: Modifier=Modifier, onClick: () -> Unit) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(48.dp)
-            .clip(MaterialTheme.shapes.large)
             .background(TranslucentAppPrimaryColor)
     ) {
         IconButton(onClick = { onClick() }, modifier = Modifier.fillMaxSize()) {

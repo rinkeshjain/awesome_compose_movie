@@ -1,27 +1,18 @@
 package com.rinkesh.composemovie.screens
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.rinkesh.composemovie.screens.commonview.GenreChip
 import com.rinkesh.composemovie.screens.commonview.ScrollableMovieItem
@@ -32,14 +23,9 @@ import com.rinkesh.composemovie.screens.destinations.SearchScreenDestination
 import com.rinkesh.composemovie.utlis.FilmType
 import com.rinkesh.composemovie.viewmodels.HomeViewModel
 
-@OptIn(ExperimentalAnimationApi::class)
 @Destination(start = true)
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel(), navigator: DestinationsNavigator) {
-
-    var isVisible by remember { mutableStateOf(true) }
-    var isRound by remember { mutableStateOf(false) }
-
 
     Column(
         Modifier.fillMaxSize(),

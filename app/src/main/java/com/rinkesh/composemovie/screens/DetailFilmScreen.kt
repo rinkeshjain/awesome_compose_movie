@@ -62,7 +62,8 @@ fun DetailFilmScreen(
     navigator: DestinationsNavigator
 ) {
 
-    var startColor by remember{ mutableStateOf(Color(0xFF7350DD)) }
+    var startColor by remember{ mutableStateOf(Color(0xFFA3A0AD)) }
+    var endColor by remember{ mutableStateOf(Color(0xFF000000)) }
     var film by remember { mutableStateOf(currentFilm) }
     val filmType by remember { mutableStateOf(currentFilmType) }
     val date = SimpleDateFormat.getDateInstance().format(Date())
@@ -101,13 +102,12 @@ fun DetailFilmScreen(
                 onImageStateChanged = {imageState->
                     if(imageState is CoilImageState.Success) {
                         val palate = Palette.from(imageState.imageBitmap!!.asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)).generate()
-                        startColor = Color(palate.getVibrantColor(0xFFFFFF))
+                        endColor = Color(palate.getLightVibrantColor(0x000000))
                         println("startColor")
                     }
                 },
                 modifier = Modifier
                     .fillMaxSize()
-                    .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
                     .constrainAs(backDropImage) {
                         top.linkTo(parent.top)
                         bottom.linkTo(parent.bottom)
@@ -134,17 +134,17 @@ fun DetailFilmScreen(
             BackButton(modifier = Modifier.constrainAs(backButton) {
                 start.linkTo(backDropImage.start, margin = 16.dp)
                 top.linkTo(backDropImage.top, margin = 16.dp)
-            }, onClick = { navigator.navigateUp() })
+            }.background(endColor), onClick = { navigator.navigateUp() })
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .height(100.dp)
+                    .height(150.dp)
                     .background(
                         brush = Brush.verticalGradient(
                             listOf(
                                 Color.Transparent,
-                                Color(0xFF7350DD).copy(alpha = 0.5F),
-                                startColor
+                                startColor,
+                                endColor
                             ),
                             startY = 0.1F
                         )
